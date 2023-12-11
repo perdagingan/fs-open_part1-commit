@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const Header = ({ course }) => {
+  return (
+    <div>
+      <h1>{course}</h1>
+    </div>
+  );
+};
+
+const Part = ({ part, exercises }) => {
+  return (
+    <p>
+      {part}: {exercises} exercises
+    </p>
+  );
+};
+
+const Content = (props) => {
+  return (
+    <div>
+      {props.parts.map((part, index) => (
+        <Part key={index} part={part.name} exercises={part.exercises} />
+      ))}
+    </div>
+  );
+};
+
+const Total = (props) => {
+  const totalExercises = props.parts.reduce((total, part) => total + part.exercises, 0);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <p>
+      <strong>Total exercises: {totalExercises}</strong>
+    </p>
+  );
+};
 
-export default App
+const App = () => {
+  // Define your course and parts data
+  const course = 'Your Course';
+  const parts = [
+    { name: 'Part 1', exercises: 10 },
+    { name: 'Part 2', exercises: 7 },
+    { name: 'Part 3', exercises: 5 },
+  ];
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content parts={parts} />
+      <Total parts={parts} />
+    </div>
+  );
+};
+
+export default App;
